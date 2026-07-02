@@ -1,0 +1,7 @@
+name,KA_nM,KB_nM,avidity,MUC1_nM,CD40_nM,note
+BSP-01,16.0,1.0,21.0,5.0,0.5,avidity-engineered lead (bivalent trimer)
+BSP-02,16.0,1.0,1.0,5.0,0.5,monovalent format — avidity lost
+BSP-03,5.0,0.2,8.0,5.0,0.5,tight CD40 arm — systemic ceiling collapses
+BSP-04,0.2,5.0,8.0,5.0,0.5,loose CD40 arm — wide corridor
+BSP-05,16.0,1.0,21.0,5.0,0.05,lead scaffold — low tumor CD40 density
+BSP-06,1.0,1.0,6.0,3.0,1.0,alternate balanced design
