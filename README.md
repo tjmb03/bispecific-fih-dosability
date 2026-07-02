@@ -179,7 +179,14 @@ examples/candidate_panel.py
 figures/                # generated figures + the binding schematic
 tests/                  # the model results and the decision rule, as assertions
 ```
+## Companion repositories
 
+Three repos on one theme — **model-informed molecule selection**, using mechanistic PK/PD to choose between molecular designs before any clinical data exists:
+
+- [**adc-therapeutic-index**](https://github.com/tjmb03/adc-therapeutic-index) — the first-in-human question for a *cytotoxic ADC*, where the governing logic is the mirror image of this repo: efficacy from conjugate, dose-limiting toxicity from free payload, so dose selection is toxicology/NOAEL, not MABEL.
+- [**ocular-tmdd-format-selection**](https://github.com/tjmb03/ocular-tmdd-format-selection) — *format selection* for a posterior-segment target: which of naked peptide, Fab, or Fc-fusion delivers the most integrated target coverage, via a four-compartment intravitreal TMDD model with FcRn recycling.
+
+  
 ## License
 
 MIT © 2026 Bo Ma
