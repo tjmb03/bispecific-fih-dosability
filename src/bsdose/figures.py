@@ -64,6 +64,76 @@ def fig_trimer_bell(path):
     plt.close(fig)
 
 
+def fig_kd_position(path):
+    """Result 1: the two arm KDs set the peak POSITION at sqrt(KA*KB).
+
+    Asymmetric arms (0.3 / 30) peak at the same place as symmetric (3 / 3) --
+    only the product of the KDs matters, not how the affinity is split.
+    """
+    grid = np.logspace(-2, 2, 4000)
+    A = B = 500.0  # targets in strong excess so peaks sit exactly at sqrt(KA*KB)
+    curves = [
+        (0.3, 0.3, TEAL, "-", "KA=KB=0.3"),
+        (3.0, 3.0, PURPLE, "-", "KA=KB=3"),
+        (0.3, 30.0, CORAL, "--", "KA=0.3, KB=30"),
+    ]
+    fig, ax = plt.subplots(figsize=(7.4, 3.9))
+    for KA, KB, col, ls, lab in curves:
+        T = trimer(grid, KA, KB, A, B)
+        ax.semilogx(grid, T / T.max(), color=col, lw=2.6, ls=ls, label=lab)
+    for pk, col, tcol in [(0.3, TEAL, "#0C5E47"), (3.0, PURPLE, "#4A3789")]:
+        ax.axvline(pk, color=col, ls="--", lw=0.9, alpha=0.6)
+        ax.plot([pk], [1.0], "o", color=col, ms=6)
+        ax.text(pk, 1.05, r"$\sqrt{K_A K_B}=%g$" % pk, ha="center", fontsize=9, color=tcol)
+    ax.annotate("purple & red peak together\n(same geometric mean)", xy=(3.0, 0.86),
+                xytext=(9, 0.55), fontsize=9, color="#2C2C2A",
+                bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.85),
+                arrowprops=dict(arrowstyle="-", color=GREY, lw=0.7, ls=":"))
+    ax.set_xlabel("free drug concentration (nM, log)")
+    ax.set_ylabel("trimer (normalised)")
+    ax.set_ylim(0, 1.14)
+    ax.legend(loc="upper center", ncol=3, frameon=False, fontsize=9, bbox_to_anchor=(0.5, 1.17))
+    fig.tight_layout()
+    fig.savefig(path, bbox_inches="tight")
+    plt.close(fig)
+
+
+def fig_density_height(path):
+    """Result 2: target density sets peak HEIGHT, capped by the scarcer target.
+
+    KA=KB=1 (peak pinned at 1); MUC1 held fixed while CD40 density is swept.
+    Height climbs toward the MUC1 ceiling with diminishing returns; the peak
+    never moves.
+    """
+    grid = np.logspace(-2, 2, 4000)
+    KA = KB = 1.0
+    MUC1 = 1.0  # fixed scarce target => the ceiling
+    densities = [0.5, 2, 8, 32, 128]
+    shades = ["#A9E0CE", "#6FC9AC", "#37AC85", "#1B8A63", "#0A5F42"]
+    fig, ax = plt.subplots(figsize=(7.6, 4.0))
+    for cd, col in zip(densities, shades):
+        T = trimer(grid, KA, KB, MUC1, cd)
+        ax.semilogx(grid, T, color=col, lw=2.4, label="\u00d7%g" % cd)
+    ax.axhline(MUC1, color=CORAL, ls="--", lw=1.0, alpha=0.7)
+    ax.text(grid[0] * 1.3, MUC1 * 1.015, "MUC1 ceiling \u2014 the scarcer target caps the trimer",
+            color="#9A3520", fontsize=9)
+    ax.axvline(1.0, color=PURPLE, ls="--", lw=0.9, alpha=0.5)
+    ax.text(1.0, 0.55, "peak pinned at\n$\\sqrt{K_A K_B}=1$\n(KDs, not density)", ha="center",
+            fontsize=9, color="#4A3789",
+            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.85))
+    ax.text(30, 0.86, "more CD40 \u2192\ndiminishing returns", fontsize=9, color="#5F5E5A")
+    ax.text(30, 0.10, "scarce CD40 \u2192\nlittle trimer", fontsize=9, color="#5F5E5A")
+    ax.set_xlabel("free drug concentration (nM, log)")
+    ax.set_ylabel("trimer (abs.)")
+    ax.set_ylim(0, 1.15)
+    ax.legend(loc="upper center", ncol=5, frameon=False, fontsize=9,
+              title="CD40 density (MUC1 held fixed)", title_fontsize=9.5,
+              bbox_to_anchor=(0.5, 1.19))
+    fig.tight_layout()
+    fig.savefig(path, bbox_inches="tight")
+    plt.close(fig)
+
+
 def fig_dosability_corridor(path):
     grid = np.logspace(-3, 2, 5000)
     T = _tumor_curve(LEAD, grid)
@@ -175,6 +245,8 @@ def fig_candidate_panel(path, csv=None):
 def main():
     os.makedirs(FIGDIR, exist_ok=True)
     fig_trimer_bell(os.path.join(FIGDIR, "trimer_bell.png"))
+    fig_kd_position(os.path.join(FIGDIR, "kd_position.png"))
+    fig_density_height(os.path.join(FIGDIR, "density_height.png"))
     fig_dosability_corridor(os.path.join(FIGDIR, "dosability_corridor.png"))
     fig_avidity_failure(os.path.join(FIGDIR, "avidity_failure.png"))
     fig_candidate_panel(os.path.join(FIGDIR, "candidate_panel.png"))

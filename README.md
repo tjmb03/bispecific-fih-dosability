@@ -57,10 +57,19 @@ with the free targets depleting as drug binds (solved by fixed-point iteration i
 
 1. **The trimer peaks at the geometric mean of the two arm KDs, `√(KA·KB)`** — exact in the target-excess
    limit and independent of how asymmetrically affinity is split between the arms. Only the *product* of
-   the arm KDs sets the peak location.
-2. **The peak height is capped by the limiting (scarcer) target.** Raising the abundant target yields
-   diminishing returns toward a ceiling set by the scarcer one — so target *density* sets efficacy
-   *magnitude*, separately from where the window sits.
+   the arm KDs sets the peak location: arms split 0.3 / 30 peak at the *same* concentration as 3 / 3.
+
+<p align="center"><img src="figures/kd_position.png" width="660"></p>
+
+2. **The peak height is capped by the limiting (scarcer) target.** With the arm KDs fixed (peak pinned at
+   `√(KA·KB)`), sweeping one target's density moves the peak *height* but never its *position*; height
+   climbs toward a ceiling set by the scarcer target with diminishing returns. So target *density* sets
+   efficacy *magnitude*, separately from where the window sits.
+
+<p align="center"><img src="figures/density_height.png" width="660"></p>
+
+Put together, these give the bell — narrow, with its position fixed by the KDs and its height by the
+targets:
 
 <p align="center"><img src="figures/trimer_bell.png" width="640"></p>
 
