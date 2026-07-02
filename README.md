@@ -19,7 +19,7 @@ Given a candidate's binding parameters, it answers a question you can ask *befor
 does this molecule even have a dosable window — a concentration that is both **efficacious** and
 **safe** — and if several candidates do, **which has the most margin?**
 
-The worked example is an anti-MUC1 × CD40 T-cell–engaging / APC-agonist bispecific (the M0324 class),
+The worked example is an anti-MUC1 × CD40 T-cell–engaging / APC-agonist bispecific,
 but the model is general to any bridging bispecific whose efficacy runs through a ternary complex and
 whose safety runs through systemic agonist-receptor occupancy.
 
